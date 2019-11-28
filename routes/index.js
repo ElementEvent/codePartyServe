@@ -1,7 +1,9 @@
 const session = require('./session');
+const comment = require('./comment');
 
 const router = {
-	session
+	session,
+	comment
 };
 
 module.exports = router;

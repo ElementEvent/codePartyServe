@@ -3,10 +3,11 @@ const md5 = require('blueimp-md5');
 const uuid = require('node-uuid');
 let User = require('../models/user');
 let router = express.Router();
+let querySession = require('../middlewares/querySession');
 
 // 获取用户列表
 router.get('/getUserList', function (req, res) {
-
+	querySession(req, res);
 	User.find().then(user => {
 		console.log(user);
 		res.status(200).json({
@@ -76,6 +77,7 @@ router.post('/login', function (req, res) {
 		password: body.password
 	}).then(user => {
 		if( user ){
+			req.session.user = user;
 			return res.status(200).json({
 				success: true,
 				err_code: 0,
@@ -97,6 +99,6 @@ router.post('/login', function (req, res) {
 			message: '服务器错误！'
 		})
 	})
-})
+});
 
 module.exports = router;
